@@ -1,0 +1,42 @@
+.navlink{
+    margin:.3rem;
+    color:maroon;
+    padding:5px;
+    display: inline-block;
+
+}
+
+.navlink:hover{
+    background-color: lightblue;
+    border-radius: 10%;
+    color:maroon;
+    text-decoration: none;
+    display: inline-block;
+}
+.navlink:active{
+    background-color: lightcoral;
+    border-radius: 10%;
+    color:maroon;
+    text-decoration: none;
+    display: inline-block;
+}
+.profilelink{
+    background-color: white;
+    color:maroon;
+    border-style: none;
+
+}
+.profilelink:hover{
+    background-color: lightblue;
+    cursor: pointer;
+}
+.active-profilelink{
+    background-color:white;
+    color:maroon;
+    font-weight: bold;
+    border: blue solid 2px;
+}
+nav a.active{
+    border: lightblue solid 3px;
+    border-radius: 15%;
+}

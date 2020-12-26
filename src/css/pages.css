@@ -1,0 +1,36 @@
+.form-container{
+    text-align: start;
+    max-width: 45%;
+    border: lightcoral solid 2px;
+    background-color: lightblue;
+    padding:1rem;
+    border-radius: 5%;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+}
+.card-stock:hover{
+    cursor: pointer;
+    background-color: maroon;
+    color:white;
+}
+.card-stock{
+    color:black;
+}
+.item-stock{
+    margin-left: .5rem;
+    margin-right: .5rem;
+    font-size: .8rem;
+}
+#button-search:hover{
+    cursor: pointer;
+    background-color: maroon;
+    color: white;
+}
+.row-stock:hover{
+    cursor: pointer;
+    background-color: maroon;
+    color:white;
+}
+.row-stock{
+    height: 50px;
+}
