@@ -22,7 +22,6 @@ function OptionForm({stock}){
         function setDateAndTime(utcDate){
             let d = utcDate.toISOString();
             let arr = d.split('T');
-            console.log('getDate result',arr);
             setCurrentDate(arr[0]);
             setCurrentTime(arr[1]);
             updateForm(fData =>({
@@ -50,9 +49,8 @@ function OptionForm({stock}){
         }))
     }
     function formatDate(info){
-        console.log(info);
         let d = new Date(info.end_date + 'T' + info.eTime);
-        console.log('format dated',d);
+        
         return d.getTime();
     }
     async function handleSubmit(evt){
@@ -68,9 +66,9 @@ function OptionForm({stock}){
         let res = await axios.post(`${BASE_API_URL}/options/${form.o_type}/${stock.symbol}/${username}?_token=${token}`,body)
         if(res.status === 201){
             let location = {pathname:'/options/success',state:{...form,...stock}}
+            console.log('optionform: ',location);
             history.push(location);
         }
-        console.log('status if not 201',res.status);
     }
     /** use current price, allow user to buy shares, display total price */
     return(
@@ -79,6 +77,7 @@ function OptionForm({stock}){
             <FormGroup>
                 <Label for='o_type'>Type:</Label>
                 <Input onChange={handleChange} type='select' id='o_type' name='o_type' required>
+                    <option></option>
                     <option>short</option>
                     <option>put</option>
                 </Input> 

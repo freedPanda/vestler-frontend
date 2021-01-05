@@ -24,7 +24,7 @@ function login(user){
         try{
             const res = await axios.post(`${BASE_API_URL}/login`,user);
             dispatch(gotUser(res.data.loginData));
-            return true;
+            return res.data.loginData;
         }catch(err){
             console.log('login');
             return {error:err};
@@ -41,4 +41,4 @@ function logout(){
     return{type:LOGOUT}
 }
 
-export {signup,login,logout};
+export {signup,login,logout,gotUser};

@@ -11,7 +11,7 @@ function StockCard({symbol}){
 
     return(
         
-        <tr className={'row-stock'} onClick={()=>history.push(`/stocks/${stock.symbol}`)}>
+        <tr className={'row-stock'} onClick={()=>history.push(`/stocks/${stock.symbol}`,stock)}>
             <td ><img style={{height:'50px', maxWidth:'50px'}}src={stock.image_url} alt={'company logo'}/></td>
             <td>{stock.symbol}</td>
             <td>{stock.name}</td>

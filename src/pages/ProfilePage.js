@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
-import {Container,Card, CardText,CardImg, CardBody,Nav} from 'reactstrap';
-import {useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import {Container,Card, Nav} from 'reactstrap';
+import {useSelector, useDispatch} from 'react-redux';
 import ProfileNav from '../navs/ProfileNav';
 import ViewProfile from '../tabs/ViewProfile';
 import ViewMyStocks from '../tabs/ViewMyStocks';
 import ViewAccount from '../tabs/ViewAccount';
 import ViewOptions from '../tabs/ViewOptions';
-import {Redirect } from 'react-router-dom';
+import {useHistory } from 'react-router-dom';
+import {gotUser} from '../actions/user';
 
 function ProfilePage(){
 
-    const user = useSelector(st => st.user || null);
+    const user = useSelector(st => st.user);
 
     const [tab,setTab] = useState('stocks');
 
-    if(!user){
-        return(
-            <Redirect to='/login'/>
-        )
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    function checkLocalStorage(){
+        try{
+          let user = window.localStorage.getItem('user');
+          user = JSON.parse(user);
+          if(user.token){
+              dispatch(gotUser(user));
+              history.push('/profile');
+          }
+        }catch(err){
+          console.log(err);
+        }
+      }
+    if(!Object.keys(user).length){
+        checkLocalStorage();
     }
 
     return(

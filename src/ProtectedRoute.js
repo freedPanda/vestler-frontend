@@ -1,20 +1,47 @@
-import React from 'react';
-import { Redirect, useParams} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React,{useEffect} from 'react';
+import { Redirect, useLocation, useHistory} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import ProtectedPage from './pages/ProtectedPage';
+import {gotUser} from './actions/user';
 
 function ProtectedRoute({component}){
 
-    const symbol = useParams();
-    console.log(symbol);
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const data = location.state;
+    console.log('symbol at protected route',data);
 
     const loggedIn = useSelector(state => state.user.token !== undefined);
 
+
+  useEffect(()=>{
+
+    function checkLocalStorage(){
+      try{
+        let user = window.localStorage.getItem('user');
+        user = JSON.parse(user);
+        if(user.token){
+            console.log('local storage result ', user);
+            dispatch(gotUser(user));
+        }
+        else{
+            history.push('/signup')
+        }
+      }catch(err){
+        console.log(err);
+      }
+    }
+    if(!loggedIn){
+        checkLocalStorage();
+    }
+    
+
+  },[dispatch])
+    
     return(
-        loggedIn ? (
-        <ProtectedPage component={component}/>
-        ) :
-        (<Redirect to='/signup'></Redirect>)
+        
+        <ProtectedPage component={component} stock={data}/>
     )
 
 }

@@ -47,7 +47,7 @@ function ViewMyStocks({display}){
                     <CardTitle className={'item-stock'} >{stock.name}</CardTitle>
                     <CardText className={'item-stock'} >{stock.qty} shares at ${stock.price.toFixed(2)}</CardText>
                     <button color="info" className={'item-stock'} 
-                    onClick={()=>history.push(`/stocks/${stock.symbol}`)}>View</button> 
+                    onClick={()=>history.push(`/stocks/${stock.symbol}`,stock.symbol)}>View</button> 
                     <button color="info"className={'item-stock'} 
                     onClick={()=>history.push(`/stocks/sell/${stock.symbol}`,stock)}>Sell</button>
                 </CardBody>

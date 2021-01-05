@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {login} from '../actions/user';
 
@@ -29,6 +29,9 @@ function LoginForm(){
             setLoginError(true);
         }
         else{
+            //let user = res;
+            window.localStorage.setItem('user',JSON.stringify(res));
+            //window.localStorage.setItem('user', JSON.stringify({...user.user,token:user.token}));
             history.push('/profile');
         }
     }

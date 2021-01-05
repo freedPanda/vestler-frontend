@@ -3,6 +3,7 @@ import { Container, InputGroup, Input, InputGroupAddon, Table, InputGroupText, B
 import { useSelector, useDispatch } from 'react-redux';
 import StockCard from '../StockCard';
 import {getStocks} from '../actions/stocks';
+import {gotUser} from '../actions/user';
 import '../css/pages.css';
 import axios from 'axios';
 import {v4 as uuid} from 'uuid';
@@ -18,13 +19,24 @@ function StocksPage(){
     const [searched, setSearched] = useState(false);
     const [searchResults, setSearchResults] = useState(false);
     
-    //THE NEXT THREE LINES ARE IN USE FOR NOW
-    let test = [];
-    for(let i = 0; i < 20; i++){
-        test.push(stocks[i]);
+    function checkLocalStorage(){
+        try{
+          let user = window.localStorage.getItem('user');
+          user = JSON.parse(user);
+          if(user.token){
+              dispatch(gotUser(user));
+          }
+        }catch(err){
+          console.log(err);
+        }
+      }
+    if(!token){
+        console.log('dont have a token',token);
+        checkLocalStorage();
     }
-
+    
     useEffect(()=>{
+        
         if(stocks.length < 1){
             dispatch(getStocks(token));
         }
@@ -114,7 +126,7 @@ function StocksPage(){
                     </tr>
                 </thead>
                 <tbody>
-                    {test.map(stock =>(
+                    {stocks.map(stock =>(
                         <StockCard key={uuid()} symbol={stock}/>
                     ))}
                 </tbody>

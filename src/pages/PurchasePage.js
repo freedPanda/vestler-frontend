@@ -1,12 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Card, CardText } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {gotUser} from '../actions/user';
 
 function PurchasePage(){
 
     const location = useLocation();
-    const stock = location.state;
-    console.log(stock);
+
+    
+    const [stock, setStock] = useState(location.state);
+
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+
+        function checkLocalStorage(){
+          try{
+            let user = window.localStorage.getItem('user');
+            user = JSON.parse(user);
+            if(user.token){
+                dispatch(gotUser(user));
+            }
+          }catch(err){
+            console.log(err);
+          }
+        }
+    
+        checkLocalStorage();
+    
+      },[])
 
     if(stock.o_type){
         return(

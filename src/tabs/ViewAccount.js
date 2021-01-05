@@ -10,6 +10,7 @@ function ViewAccount({display}){
     const token = useSelector(st => st.user.token);
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
+    
     const [balance, setBalance] = useState(null);
     const [netGains, setNetGains] = useState(null);
 
@@ -17,12 +18,10 @@ function ViewAccount({display}){
         async function getBalance(){
             let res = await axios.get(`${BASE_API_URL}/transactions/balance/${username}?_token=${token}`);
             setBalance(res.data);
-            console.log('balance',balance);
         };
         async function getNetGains(){
             let res = await axios.get(`${BASE_API_URL}/transactions/netgains/${username}?_token=${token}`);
             setNetGains([...res.data]);
-            console.log('netgains',netGains);
         };
         getBalance();
         getNetGains();

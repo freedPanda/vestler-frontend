@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect, useParams } from 'react-router-dom';
+import { Switch, Route, Redirect} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -7,8 +7,6 @@ import NotFound from './pages/NotFound';
 import ServerError from './pages/ServerError';
 import LogoutPage from './pages/LogoutPage';
 import ProtectedRoute from './ProtectedRoute';
-import StockDetails from './pages/StockDetails';
-import SalePage from './pages/SalePage';
 
 function Routes(){
     
@@ -23,7 +21,6 @@ function Routes(){
             <Route exact path='/signup'>
                 <SignupPage />
             </Route>
-            
             <Route exact path='/logout'>
                 <LogoutPage />
             </Route>
@@ -35,14 +32,9 @@ function Routes(){
             <Route exact path='/servererror'>
                 <ServerError />
             </Route>
-            <Route path = '/stocks/sell/:symbol'>
-                <SalePage />
-            </Route>
-            <Route path ='/stocks/:symbol'>
-                <StockDetails />
-            </Route>
             <ProtectedRoute path='/purchase/success' component={'purchase/success'}/>
             <ProtectedRoute path='/options/success' component={'purchase/success'}/>
+            <ProtectedRoute path='/stocks/sell/:symbol' component={'stock/sell'}/>
             <ProtectedRoute path='/stocks/:symbol' component={'stock'}/>
             <Redirect to='/notfound'/>
         </Switch>

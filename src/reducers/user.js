@@ -5,6 +5,7 @@ const INIT = {};
 function user(state = INIT, action){
     switch(action.type){
         case LOAD_USER:
+            console.log('loading user into redux',action)
             return {
                 ...action.payload.user,token:action.payload.token
             };

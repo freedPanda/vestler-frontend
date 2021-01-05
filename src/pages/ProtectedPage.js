@@ -3,9 +3,10 @@ import StocksPage from './StocksPage';
 import ProfilePage from './ProfilePage';
 import StockDetails from './StockDetails';
 import PurchasePage from './PurchasePage';
+import SalePage from './SalePage';
 
-function ProtectedPage({component}){
-
+function ProtectedPage({component,stock}){
+    console.log('PROTECTED PAGE')
 
     switch(component){
         case 'stocks':
@@ -23,13 +24,19 @@ function ProtectedPage({component}){
         case 'stock':
             return(
                 <>
-                <StockDetails />
+                <StockDetails stockInfo={stock}/>
                 </>
             )
         case 'purchase/success':
             return(
                 <>
                 <PurchasePage />
+                </>
+            )
+        case 'stock/sell':
+            return(
+                <>
+                <SalePage stockInfo={stock.symbol}/>
                 </>
             )
         default:

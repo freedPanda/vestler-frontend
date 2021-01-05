@@ -10,12 +10,6 @@ function UserNav(){
                 <NavLink className={'navlink'} exact to="/stocks">Stocks</NavLink>
             </NavItem>
             <NavItem>
-                <NavLink className={'navlink'} exact to="/trades">Trades</NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink className={'navlink'} exact to="/news">News</NavLink>
-            </NavItem>
-            <NavItem>
                 <NavLink className={'navlink'} exact to='/profile'>Dashboard</NavLink>
             </NavItem>
             <NavItem>

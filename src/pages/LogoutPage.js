@@ -9,6 +9,7 @@ function LogoutPage(){
     const dispatch = useDispatch();
 
     useEffect(()=>{
+        window.localStorage.removeItem('user');
         dispatch(logout());
     },[])
     return(

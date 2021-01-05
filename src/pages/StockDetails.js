@@ -1,28 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import {Card,Container, CardImg, CardBody, CardTitle} from 'reactstrap';
+import {Card,Container, CardImg, CardBody} from 'reactstrap';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import BuyForm from '../forms/BuyForm';
 import OptionForm from '../forms/OptionForm';
+import {gotUser} from '../actions/user';
 
-function StockDetails(){
-
-    const {symbol} = useParams();
+function StockDetails({stockInfo}){
 
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-    const stock = useSelector(state => state.stocks[symbol]);
+    const stock = stockInfo;
     const token = useSelector(state => state.user.token);
-
-    console.log('symbol',symbol);
     
     const [stockData,setStockData] = useState(null);
 
+    /**check local storage  */
+    function checkLocalStorage(){
+        try{
+          let user = window.localStorage.getItem('user');
+          user = JSON.parse(user);
+          if(user.token){
+              console.log('local storage result',user);
+              dispatch(gotUser(user));
+              history.push(`/stocks/${stock.symbol}`,stock)
+          }
+        }catch(err){
+          console.log(err);
+        }
+      }
+    if(!token){
+        checkLocalStorage();
+    }
+
     useEffect(()=>{
+        
         async function getStock(){
-            let res = await axios.get(`${BASE_API_URL}/stocks/data/${symbol}`,{params:{_token:token}});
-            console.log(res.data);
+            let res = await axios.get(`${BASE_API_URL}/stocks/data/${stock.symbol}?_token=${token}`);
+            
             setStockData({...res.data.stock_data});
         }
         getStock();

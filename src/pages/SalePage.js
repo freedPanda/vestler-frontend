@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Card, Container, CardText,CardTitle, CardBody } from 'reactstrap';
 import SellForm from '../forms/SellForm';
 import '../css/pages.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {gotUser} from '../actions/user';
 
-function SalePage(){
+function SalePage({stockInfo}){
 
-    const location = useLocation();
-    let stock = location.state;
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const [stock,setStock] = useState(stockInfo);
     const [stockData,setStockData] = useState(null);
 
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
@@ -17,6 +20,20 @@ function SalePage(){
     const token = useSelector(state => state.user.token);
 
     useEffect(()=>{
+        function checkLocalStorage(){
+            try{
+              let user = window.localStorage.getItem('user');
+              user = JSON.parse(user);
+              if(user.token){
+                  dispatch(gotUser(user));
+                  history.push(`/stocks/sell/${stock.symbol}`,stock);
+              }
+            }catch(err){
+              console.log(err);
+            }
+          }
+        checkLocalStorage();
+
         async function getStock(){
             let res = await axios.get(`${BASE_API_URL}/stocks/data/${stock.symbol}?_token=${token}`)
             setStockData({...res.data.stock_data});
