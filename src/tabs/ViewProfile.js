@@ -4,6 +4,10 @@ import {Container,Card, CardText,CardImg, CardBody} from 'reactstrap';
 
 function ViewProfile({display}){
 
+    /**
+     * Profile Page - Displays user info
+     */
+
     const user = useSelector(st => st.user);
 
     if(display !== 'profile'){
@@ -17,10 +21,17 @@ function ViewProfile({display}){
             <Card>
                 <CardBody>
                     <CardImg src={`${user.photo}`} style={{width:'200px',display:'inline',float:'left'}}/>
-                    <CardText style={{float:'right'}}>
-                        {user.email}
+                    <div style={{display:'flex', justifyContent:'space-evenly'}}>
+                        <CardText style={{}}>
+                            {user.email}
+                        </CardText>
+                        <CardText>
                         {user.firstname}
-                    </CardText>
+                        </CardText>
+                        <CardText>
+                        {user.username}
+                        </CardText>
+                    </div>
                 </CardBody>
             </Card>
         </Container>

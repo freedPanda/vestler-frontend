@@ -6,7 +6,11 @@ import PurchasePage from './PurchasePage';
 import SalePage from './SalePage';
 
 function ProtectedPage({component,stock}){
-    console.log('PROTECTED PAGE')
+
+    /**
+     * Proctected Page - used by Protected route
+     * component to return the requested page
+     */
 
     switch(component){
         case 'stocks':
@@ -36,7 +40,7 @@ function ProtectedPage({component,stock}){
         case 'stock/sell':
             return(
                 <>
-                <SalePage stockInfo={stock.symbol}/>
+                <SalePage stockInfo={stock}/>
                 </>
             )
         default:

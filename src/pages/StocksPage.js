@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, InputGroup, Input, InputGroupAddon, Table, InputGroupText, Button } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import StockCard from '../StockCard';
+import PaginationComponent from '../helpers/PaginationComponent';
 import {getStocks} from '../actions/stocks';
 import {gotUser} from '../actions/user';
 import '../css/pages.css';
@@ -12,13 +13,40 @@ function StocksPage(){
 
     const token = useSelector(state => state.user.token);
     const dispatch = useDispatch();
-    const stocks = useSelector(state => Object.keys(state.stocks));
+    const stocksInReduxStore = useSelector(state => Object.keys(state.stocks));
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
+    const [stocks,setStocks] = useState([]);
+    const [index,setIndex] = useState(200);
     const [searchTerm,setSearchTerm] = useState("");
     const [searched, setSearched] = useState(false);
     const [searchResults, setSearchResults] = useState(false);
-    
+     
+    useEffect(()=>{
+        //retrieve stocks from RESTful API
+        if(stocksInReduxStore.length < 1){
+            dispatch(getStocks(token));
+        }
+        if(stocksInReduxStore.length > 0){
+            addStocks();
+        }
+        if(stocks.length < 1){
+            addStocks();
+        }
+    },[dispatch])
+
+    //this passed to the Pagination component which uses this tell the stocks page
+    //which stocks to display
+    function changeIndex(num){
+        setIndex(num);
+        console.log('index', index, num);
+        let arr = [];
+        for(let i = num - 200; i < num; i++){
+            arr.push(stocksInReduxStore[i]);
+        }
+        setStocks(arr);
+    }
+
     function checkLocalStorage(){
         try{
           let user = window.localStorage.getItem('user');
@@ -31,16 +59,18 @@ function StocksPage(){
         }
       }
     if(!token){
-        console.log('dont have a token',token);
         checkLocalStorage();
     }
-    
-    useEffect(()=>{
-        
-        if(stocks.length < 1){
-            dispatch(getStocks(token));
-        }
-    },[dispatch])
+
+    //this uses the index to get the next 200 stocks
+    function addStocks(){
+        let arr = [];
+            for(let i = index - 200; i < index; i++){
+                arr.push(stocksInReduxStore[i]);
+            }
+            setStocks(arr);
+    }
+   
     if(stocks.length < 1){
         return(
             <Container fluid={true}>
@@ -54,14 +84,15 @@ function StocksPage(){
     }
 
     async function handleSearch(evt){
-        console.log(evt);
         if(evt.key == 'Enter' || evt.target.id === 'button-search'){
             setSearched(true);
             let res = await axios.get(`${BASE_API_URL}/stocks/search/${searchTerm}?_token=${token}`)
-            console.log(res.data);
+            
             setSearchResults(res.data ? [...res.data] : null)
         }
     }
+
+    //is user has searched then display search results
     if(searched){
         if(searchResults){
             return(
@@ -104,8 +135,9 @@ function StocksPage(){
         )
     }
 
+    //when there isn't a search term then display a number of stocks based upon the index value
     return(
-        <Container fluid={true}>
+        <Container fluid={'true'}>
             <div style={{display:'flex',justifyContent:'center'}}>
                 <InputGroup>
                     <InputGroupAddon addonType='append' onClick={handleSearch} >
@@ -113,6 +145,9 @@ function StocksPage(){
                     </InputGroupAddon>
                     <Input onChange={handleChange} onKeyPress={handleSearch} type='text' name='term' placeholder='Search...'/>
                 </InputGroup>
+            </div>
+            <div style={{display:'flex'}}>
+                <PaginationComponent qty={stocksInReduxStore.length / 200} setIndex={changeIndex}/>
             </div>
             <Table size='sm'>
                 <thead>

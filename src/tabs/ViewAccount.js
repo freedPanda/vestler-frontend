@@ -6,6 +6,12 @@ import {v4 as uuid} from 'uuid';
 
 function ViewAccount({display}){
 
+    /**
+     * View Account Tab - meant for users to see
+     * account balance and see investments history. The
+     * history details their ROI
+     */
+
     const username = useSelector(st => st.user.username);
     const token = useSelector(st => st.user.token);
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";

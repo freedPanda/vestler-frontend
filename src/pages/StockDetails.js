@@ -9,6 +9,8 @@ import {gotUser} from '../actions/user';
 
 function StockDetails({stockInfo}){
 
+    console.log('stock details page',stockInfo);
+
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
     const dispatch = useDispatch();
     const history = useHistory();
@@ -24,7 +26,6 @@ function StockDetails({stockInfo}){
           let user = window.localStorage.getItem('user');
           user = JSON.parse(user);
           if(user.token){
-              console.log('local storage result',user);
               dispatch(gotUser(user));
               history.push(`/stocks/${stock.symbol}`,stock)
           }

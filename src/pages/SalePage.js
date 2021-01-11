@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Card, Container, CardText,CardTitle, CardBody } from 'reactstrap';
 import SellForm from '../forms/SellForm';
 import '../css/pages.css';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {gotUser} from '../actions/user';
 
 function SalePage({stockInfo}){
-
+    
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -32,7 +32,9 @@ function SalePage({stockInfo}){
               console.log(err);
             }
           }
-        checkLocalStorage();
+        if(!token){
+            checkLocalStorage();
+        }
 
         async function getStock(){
             let res = await axios.get(`${BASE_API_URL}/stocks/data/${stock.symbol}?_token=${token}`)

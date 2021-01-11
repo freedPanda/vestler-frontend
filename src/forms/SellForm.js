@@ -17,7 +17,7 @@ function SellForm({stock, currentPrice}){
     
     //total is used to display dollar amount of the total sale using stocks current value
     //and the chosen qty.
-    //sell is used to send the data to the server
+    //sell is used to send the sale to the server
     const [total, setTotal] = useState(0);
     const [sell, setSell] = useState({...stock,qty:0,currentPrice:currentPrice})
     const [profit, setProfit] = useState(0);

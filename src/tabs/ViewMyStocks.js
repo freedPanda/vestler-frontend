@@ -8,8 +8,12 @@ import {v4 as uuid} from 'uuid';
 
 function ViewMyStocks({display}){
 
-    //using useEffect instead so state doesn't have to be managed
-    //const myStocks = useSelector(state => state.user.stocks || []);
+    /**
+     * View My Stocks Tab - meant for users to see
+     * their current investments(what stocks the user
+     * is still holding)
+     */
+
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
     const history = useHistory();
     const username = useSelector(state => state.user.username);
@@ -47,7 +51,7 @@ function ViewMyStocks({display}){
                     <CardTitle className={'item-stock'} >{stock.name}</CardTitle>
                     <CardText className={'item-stock'} >{stock.qty} shares at ${stock.price.toFixed(2)}</CardText>
                     <button color="info" className={'item-stock'} 
-                    onClick={()=>history.push(`/stocks/${stock.symbol}`,stock.symbol)}>View</button> 
+                    onClick={()=>history.push(`/stocks/${stock.symbol}`,stock)}>View</button> 
                     <button color="info"className={'item-stock'} 
                     onClick={()=>history.push(`/stocks/sell/${stock.symbol}`,stock)}>Sell</button>
                 </CardBody>

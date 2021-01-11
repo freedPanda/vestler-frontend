@@ -6,6 +6,12 @@ import {v4 as uuid} from 'uuid';
 
 function ViewOptions({display}){
 
+    /**
+     * View Options Tab - meant to display all options
+     * the user has placed ever. If the option has not completed
+     * then the result price displays pending
+     */
+
     const BASE_API_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
     const username = useSelector(state =>state.user.username);
     const token = useSelector(state => state.user.token);

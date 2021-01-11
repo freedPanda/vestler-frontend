@@ -19,22 +19,40 @@ function OptionForm({stock}){
     const [currentTime,setCurrentTime] = useState("");
     useEffect(()=>{
         
-        function setDateAndTime(utcDate){
-            let d = utcDate.toISOString();
-            let arr = d.split('T');
-            setCurrentDate(arr[0]);
-            setCurrentTime(arr[1]);
+        //formats date and time
+        function setDateAndTime(){
+            let date = new Date();
+            let d = date.toLocaleDateString();
+            
+            let arr = d.split('/');
+            if(arr[0].length < 2){
+                arr[0] = '0' + arr[0]
+            }
+            if(arr[1].length < 2){
+                arr[1] = '0' + arr[1]
+            }
+            d = `${arr[2]}-${arr[0]}-${arr[1]}`;
+            setCurrentDate(d);
+            let t = date.toLocaleTimeString();
+            arr = t.split(':');
+            if(arr[0].length < 2){
+                arr[0] = '0' + arr[0]
+            }
+            if(arr[1].length < 2){
+                arr[1] = '0' + arr[1]
+            }
+            setCurrentTime(arr[0] + ":" + arr[1]);
             updateForm(fData =>({
-                ...fData,['end_date']:arr[0]
+                ...fData,['end_date']:d
             }));
         }
-        setDateAndTime(new Date());
+        setDateAndTime();
     },[])
     
 
     function getDisplayableTime(){
         let arr = currentTime.split(':');
-        return '00:00';
+        //return '00:00';
         //return arr[0] + ':' + arr[1];
     }
 
@@ -66,7 +84,7 @@ function OptionForm({stock}){
         let res = await axios.post(`${BASE_API_URL}/options/${form.o_type}/${stock.symbol}/${username}?_token=${token}`,body)
         if(res.status === 201){
             let location = {pathname:'/options/success',state:{...form,...stock}}
-            console.log('optionform: ',location);
+            
             history.push(location);
         }
     }
@@ -90,7 +108,7 @@ function OptionForm({stock}){
             <FormGroup>
                 <Label for='eTime'>End Time: </Label>
                 <Input onChange={handleChange} type='time' id='eTime' name='eTime' 
-                min={currentDate === form.end_date ? getDisplayableTime() : "0:00"} required />
+                min={currentDate === form.end_date ? currentTime : "0:00"} required />
             </FormGroup>
             <FormGroup>
                 <Label for='target'>Target: </Label>

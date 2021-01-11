@@ -6,23 +6,27 @@ import {gotUser} from './actions/user';
 
 function ProtectedRoute({component}){
 
+    /**
+     * Protected Route - ensures authenticated users 
+     * can access a route
+     */
+
     const history = useHistory();
     const dispatch = useDispatch();
     const location = useLocation();
     const data = location.state;
-    console.log('symbol at protected route',data);
 
     const loggedIn = useSelector(state => state.user.token !== undefined);
 
 
   useEffect(()=>{
 
+    //checking local storage for username and token
     function checkLocalStorage(){
       try{
         let user = window.localStorage.getItem('user');
         user = JSON.parse(user);
         if(user.token){
-            console.log('local storage result ', user);
             dispatch(gotUser(user));
         }
         else{
