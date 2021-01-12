@@ -27,13 +27,14 @@ function StocksPage(){
         if(stocksInReduxStore.length < 1){
             dispatch(getStocks(token));
         }
-        if(stocksInReduxStore.length > 0){
-            addStocks();
-        }
+        
+        
+    },[dispatch])
+    if(stocksInReduxStore.length > 0){
         if(stocks.length < 1){
             addStocks();
         }
-    },[dispatch])
+    }
 
     //this passed to the Pagination component which uses this tell the stocks page
     //which stocks to display

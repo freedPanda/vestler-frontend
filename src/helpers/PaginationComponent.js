@@ -19,7 +19,7 @@ function PaginationComponent({qty,setIndex}){
     }
 
     return(
-        <Pagination style={{display:'flex'}}>
+        <Pagination >
             {pageNumbers.map(page =>(
                 <PaginationItem key = {uuid()} >
                     <PaginationLink onClick={handleClick} name={page} style={{backgroundColor:active === page ? 'maroon' : 'none'}}>
