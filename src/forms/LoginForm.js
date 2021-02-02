@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import {Form, FormGroup, Label, Input, Button, Spinner} from 'reactstrap';
 import {useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {login} from '../actions/user';
@@ -12,6 +12,7 @@ function LoginForm(){
     const INIT = {username:"",password:""};
     const [form,updateForm] = useState(INIT);
     const [loginError, setLoginError] = useState(false);
+    const [loggingIn, setLoggingIn] = useState(false);
 
     const handleChange = (evt) => {
         const {name, value} = evt.target;
@@ -48,7 +49,8 @@ function LoginForm(){
                 <Label for='password'>Password</Label>
                 <Input onChange={handleChange} type='password' id='password' name='password' required />
             </FormGroup>
-            <Button color='primary'>Login</Button>
+            <Button style={{visibility:loggingIn ? 'hidden' : 'visible' }} color='primary'>Login</Button>
+            <Spinner style={{visibility:loggingIn ? 'visible' : 'hidden'}} size='sm' color='primary' />
         </Form>
         </>
     )
